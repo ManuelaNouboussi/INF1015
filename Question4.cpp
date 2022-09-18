@@ -6,62 +6,53 @@
 
 using namespace std;
 
-int produit(int a, int b)
+struct Russe
 {
-	return a * b;
+	int a;
+	int b;
+	int c;
+	int d;
+	int e;
+	int f;
+};
+
+unsigned int multiRusse(unsigned int num1, unsigned int num2) {	//basÃ© sur https://www.tutorialspoint.com/cplusplus-program-to-implement-russian-peasant-multiplication
+	int result = 0;
+	while (num2 > 0) {
+		if (num2 & 1)
+			result = result + num1;
+		num1 = num1 << 1;
+		num2 = num2 >> 1;
+	}
+	return result;
 }
 
-void multiplicationRusse(int a, int b,int resultatTheorique)
+bool verif(int a, int b)
 {
-	//Définition
-	vector<int> col1;
-	vector<int> col2;
-	int nbDeTest = 0;
-	int resultatExperimental=0;
-	struct russe
-	{
-		int a;
-		int b;
-		int resultat = produit(a, b);
-	};
-	russe tests[3];
-
-
-	for (int i = a; i >= 1; i = (i / 2))
-	{
-		if (i % 2 != 0)
-		{
-			col1.push_back(i);
-			col2.push_back(b);
-		}
-		b = (b * 2);
-	}
-
-	for (int i=0;i<col1.size();i++)
-	{
-		tests[i].a = col1[i];
-		tests[i].b = col2[i];
-		tests[i].resultat = produit(col1[i],col2[i]);
-		resultatExperimental += tests[i].resultat;
-		nbDeTest++;
-
-	}
-
-	if (resultatExperimental == resultatExperimental)
-	{
-		cout << nbDeTest << "/3 tests passent." << endl;
-	}
-	else if(nbDeTest<3)
-	{
-		cout << nbDeTest << "/3 tests passent." << endl;
-	}
+	return a * b == multiRusse(a, b);
 }
 
 int main()
 {
-	int a, b;
-	cout << "Entrer une valeur de a et une valeur de b: ";
-	cin >> a >> b;
+	int compteur = 0;
+	Russe me;
+	me.a = 7;
+	me.b = 11;
+	me.c = 37;
+	me.d = 129;
+	me.e = 12;
+	me.f = 3765;
+	if (verif(me.a, me.b))
+		compteur += 1;
 
-	multiplicationRusse(a, b, produit(a, b));
+	if (verif(me.c, me.d))
+		compteur += 1;
+
+	if (verif(me.e, me.f)) 
+		compteur += 1;
+
+	cout << compteur << "/3 tests passent." << endl;
+
+	return 0;
+		
 }
